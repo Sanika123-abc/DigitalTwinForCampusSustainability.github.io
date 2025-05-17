@@ -3,286 +3,388 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Sustainability - Garbage Report</title>
+    <title>Digital Twin Campus | Sustainable University</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #0a7c45;
-            --secondary-color: #084c2a;
-            --accent-color: #9eddbe;
-            --light-color: #f5f5f5;
-            --dark-color: #333;
-            --green-color: #28a745;
-            --yellow-color: #ffc107;
-            --red-color: #dc3545;
+            --primary-color: #7e4a9b;
+            --primary-dark: #5d3375;
+            --secondary-color: #2d3748;
+            --accent-color: #a78bfa;
+            --light-color: #f8fafc;
+            --dark-color: #1e293b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --gray-color: #64748b;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #f0f8f4 0%, #e0f0e6 100%);
+            background-color: var(--light-color);
             color: var(--dark-color);
             line-height: 1.6;
             min-height: 100vh;
+            scroll-behavior: smooth;
         }
         
-        .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 20px;
-            perspective: 1000px;
-        }
-        
+        /* Navigation */
         header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--dark-color) 100%);
             color: white;
-            text-align: center;
-            padding: 2rem;
-            border-radius: 12px 12px 0 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
-        header::before {
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .nav-links a::after {
             content: '';
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
             width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at top right, rgba(255,255,255,0.2) 0%, transparent 70%);
         }
         
-        header h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            position: relative;
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
         
-        header p {
-            font-size: 1.1rem;
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.95)), 
+                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1') center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            color: white;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
             opacity: 0.9;
+        }
+        
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(126, 74, 155, 0.3);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
             position: relative;
         }
         
-        .form-container {
-            background: white;
-            border-radius: 0 0 12px 12px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            transform-style: preserve-3d;
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+        
+        /* About Project */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-text h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--gray-color);
+            line-height: 1.8;
+        }
+        
+        .about-image {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Campus Model */
+        .model-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .model-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
         
-        .form-container:hover {
+        .model-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .model-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .model-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 1.5rem;
+        }
+        
+        .model-caption h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* How to Help */
+        .help-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .help-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .help-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .help-card-icon {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            font-size: 2rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .help-card-content {
+            padding: 1.5rem;
+        }
+        
+        .help-card h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        .help-card p {
+            color: var(--gray-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Complaint Form */
+        .form-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
         }
         
         .form-group {
-            margin-bottom: 1.8rem;
-            position: relative;
+            margin-bottom: 1.5rem;
         }
         
-        label {
+        .form-group label {
             display: block;
-            margin-bottom: 0.7rem;
+            margin-bottom: 0.5rem;
             font-weight: 600;
-            color: var(--dark-color);
-            transition: all 0.3s ease;
+            color: var(--secondary-color);
         }
         
-        input, select, textarea {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            padding: 14px;
-            border: 2px solid #e0e0e0;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
             border-radius: 8px;
             font-size: 1rem;
             transition: all 0.3s ease;
-            background-color: #fcfcfc;
         }
         
-        input:focus, select:focus, textarea:focus {
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(10, 124, 69, 0.2);
-            background-color: white;
+            box-shadow: 0 0 0 3px rgba(126, 74, 155, 0.2);
         }
         
-        textarea {
+        .form-group textarea {
+            min-height: 150px;
             resize: vertical;
-            min-height: 120px;
         }
         
-        .location-container {
+        .severity-options {
             display: flex;
             gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .location-display {
-            margin-top: 0.8rem;
-            font-size: 0.95rem;
-            color: #666;
-        }
-        
-        button {
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(10, 124, 69, 0.3);
-        }
-        
-        button:hover {
-            background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(10, 124, 69, 0.4);
-        }
-        
-        button:active {
-            transform: translateY(1px);
-            box-shadow: 0 2px 5px rgba(10, 124, 69, 0.4);
-        }
-        
-        button i {
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .get-location {
-            background: linear-gradient(to right, #7ccaa3, var(--accent-color));
-            color: var(--dark-color);
-            box-shadow: 0 4px 10px rgba(124, 202, 163, 0.4);
-        }
-        
-        .get-location:hover {
-            background: linear-gradient(to right, var(--accent-color), #7ccaa3);
-            box-shadow: 0 6px 15px rgba(124, 202, 163, 0.5);
-        }
-        
-        .success-message {
-            display: none;
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-            color: #155724;
-            padding: 2rem;
-            border-radius: 8px;
-            margin-top: 1.5rem;
-            text-align: center;
-            animation: fadeIn 0.6s ease-out;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .success-message h3 {
-            margin-bottom: 1rem;
-            color: #0f401a;
-        }
-        
-        .error-message {
-            display: none;
-            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
-            color: #721c24;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-top: 1.5rem;
-            text-align: center;
-            animation: fadeIn 0.6s ease-out;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Loading spinner */
-        .spinner {
-            display: none;
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 12px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* File upload styling */
-        .file-input-container {
-            position: relative;
-            margin-top: 1rem;
-        }
-        
-        .file-input-label {
-            display: inline-block;
-            background: linear-gradient(to right, #e9e9e9, #f5f5f5);
-            color: #333;
-            padding: 12px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            border: 1px solid #ddd;
-        }
-        
-        .file-input-label:hover {
-            background: linear-gradient(to right, #f5f5f5, #e9e9e9);
-            border-color: #ccc;
-        }
-        
-        #imageUpload {
-            position: absolute;
-            width: 0.1px;
-            height: 0.1px;
-            opacity: 0;
-            overflow: hidden;
-            z-index: -1;
-        }
-        
-        #imagePreview {
-            display: none;
-            max-width: 100%;
-            margin-top: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        /* Severity levels styling with colors */
-        .severity-container {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
         }
         
         .severity-option {
             flex: 1;
-            text-align: center;
         }
         
         .severity-option input {
@@ -291,366 +393,800 @@
         
         .severity-option label {
             display: block;
-            padding: 12px;
-            border: 2px solid #ddd;
+            padding: 0.75rem;
+            text-align: center;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            border: 1px solid #e2e8f0;
         }
         
-        /* Green for Low severity */
-        #lowSeverity + label {
-            color: var(--green-color);
-            border-color: var(--green-color);
-            background: linear-gradient(to bottom, rgba(40, 167, 69, 0.05), rgba(40, 167, 69, 0.1));
-        }
-        
-        #lowSeverity:checked + label {
-            background: linear-gradient(to bottom, var(--green-color), #218838);
+        .severity-option input:checked + label {
+            background-color: var(--primary-color);
             color: white;
-            border-color: #218838;
-            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+            border-color: var(--primary-color);
         }
         
-        /* Yellow for Medium severity */
-        #mediumSeverity + label {
-            color: var(--yellow-color);
-            border-color: var(--yellow-color);
-            background: linear-gradient(to bottom, rgba(255, 193, 7, 0.05), rgba(255, 193, 7, 0.1));
+        .file-upload {
+            margin-top: 1rem;
         }
         
-        #mediumSeverity:checked + label {
-            background: linear-gradient(to bottom, var(--yellow-color), #e0a800);
+        .file-upload-label {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload-label:hover {
+            background-color: #e2e8f0;
+        }
+        
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
             color: white;
-            border-color: #e0a800;
-            box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+            padding: 4rem 2rem 2rem;
         }
         
-        /* Red for High severity */
-        #highSeverity + label {
-            color: var(--red-color);
-            border-color: var(--red-color);
-            background: linear-gradient(to bottom, rgba(220, 53, 69, 0.05), rgba(220, 53, 69, 0.1));
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
         }
         
-        #highSeverity:checked + label {
-            background: linear-gradient(to bottom, var(--red-color), #c82333);
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
             color: white;
-            border-color: #c82333;
-            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
         }
         
-        .severity-option label:hover {
-            transform: translateY(-2px);
+        .footer-links h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
         }
         
-        /* Input focus effects */
-        .form-group input:focus + label,
-        .form-group textarea:focus + label,
-        .form-group select:focus + label {
-            color: var(--primary-color);
+        .footer-links ul {
+            list-style: none;
         }
         
-        /* Decorative elements */
-        .decorative-icon {
-            position: absolute;
-            right: 20px;
-            font-size: 1.5rem;
-            color: rgba(10, 124, 69, 0.1);
+        .footer-links li {
+            margin-bottom: 0.75rem;
         }
         
-        /* Add subtle animations */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
         
-        .success-animation {
-            animation: pulse 1.5s ease-in-out infinite;
+        .footer-links a:hover {
+            color: var(--accent-color);
         }
         
-        /* Responsive design */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .container {
-                margin: 1rem;
-                padding: 10px;
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: var(--secondary-color);
+                flex-direction: column;
+                padding: 1rem 2rem;
+                gap: 1rem;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
             }
             
-            header {
-                padding: 1.5rem;
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                order: -1;
+            }
+            
+            section {
+                padding: 4rem 1.5rem;
             }
             
             .form-container {
-                padding: 1.5rem;
-            }
-            
-            .severity-container {
-                flex-direction: column;
-                gap: 0.8rem;
+                padding: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Digital Twin for Campus Sustainability</h1>
-            <p>Garbage Report System</p>
-        </header>
+    <!-- Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-leaf logo-icon"></i>
+                <span>Digital Twin Campus</span>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#model">Campus Model</a>
+                <a href="#help">How to Help</a>
+                <a href="#complaint">Report Issue</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="fade-in">Building a Sustainable Campus Through Digital Innovation</h1>
+            <p class="fade-in">Join us in creating a greener future by leveraging digital twin technology to monitor and improve MIT Academy of Engineering environmental impact.</p>
+            <div class="hero-btns fade-in">
+                <a href="#complaint" class="btn btn-primary">Report an Issue</a>
+                <a href="https://sdgs.un.org/goals" class="btn btn-outline">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+    <div class="section-title">
+        <h2>About The Project</h2>
+        <p>Building the foundation for a smarter, greener campus</p>
+    </div>
+    
+    <div class="about-content">
+        <div class="about-text">
+            <h3>Your Voice + Our Digital Campus</h3>
+            <p>This <strong>Digital Twin Campus</strong> starts with you. Right now, it’s a collaborative platform where students and staff can report sustainability issues (like leaks, waste, or energy waste) directly through this website. Each submission helps us:</p>
+            
+            <ul style="margin-bottom: 1.5rem; color: var(--gray-color); line-height: 1.8; padding-left: 1.5rem;">
+                <li><strong>Pinpoint problem areas</strong> on campus with crowd-sourced data</li>
+                <li><strong>Prioritize fixes</strong> based on real community needs</li>
+                <li><strong>Build a living map</strong> of sustainability challenges</li>
+            </ul>
+            
+            <p>In the future, we aim to integrate <strong>real-time sensors and 3D analytics</strong> to predict issues before they happen—but today, every complaint you file is a step toward that vision.</p>
+            
+            <p><em>"Think of this as Wikipedia for campus sustainability—the more people contribute, the smarter our system becomes."</em></p>
+        </div>
+        
+        <div class="about-image">
+            <img src="campus8.jpg" alt="Students discussing sustainability">
+        </div>
+    </div>
+</section>
+
+    <!-- Campus Model Section -->
+    <section id="model">
+        <div class="section-title">
+            <h2>Our Campus Model</h2>
+            <p>Explore our digital twin through these visualizations</p>
+        </div>
+        
+        <div class="model-gallery">
+            <div class="model-item">
+                <img src="a.jpg" alt="Campus Overview">
+                <div class="model-caption">
+                    <h3></h3>
+                    <p></p>
+                </div>
+            </div>
+            
+            <div class="model-item">
+                <img src="b.jpg" alt="Energy Monitoring">
+                <div class="model-caption">
+                    
+                </div>
+            </div>
+            
+            <div class="model-item">
+                <img src="cc.jpg" alt="Waste Management">
+                <div class="model-caption">
+                   
+                </div>
+            </div>
+            
+            <div class="model-item">
+                <img src="3.jpg" alt="Water Usage">
+                <div class="model-caption">
+                    
+                </div>
+            </div>
+            
+            <div class="model-item">
+                <img src="cccc.jpg" alt="Green Spaces">
+                <div class="model-caption">
+                    
+                </div>
+            </div>
+            
+            <div class="model-item">
+                <img src="ccc.jpg" alt="Sustainability Dashboard">
+                <div class="model-caption">
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Help Section -->
+    <section id="help">
+        <div class="section-title">
+            <h2>How You Can Help</h2>
+            <p>Join our sustainability efforts and make a difference</p>
+        </div>
+        
+        <div class="help-cards">
+            <div class="help-card">
+                <div class="help-card-icon">
+                    <i class="fas fa-recycle"></i>
+                </div>
+                <div class="help-card-content">
+                    <h3>Proper Waste Disposal</h3>
+                    <p>Use the correct bins for recycling, compost, and landfill waste. Contamination reduces recycling effectiveness.</p>
+                    <a href="https://www.epa.gov/recycle/recycling-basics" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Learn More</a>
+                </div>
+            </div>
+            
+            <div class="help-card">
+                <div class="help-card-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <div class="help-card-content">
+                    <h3>Energy Conservation</h3>
+                    <p>Turn off lights and electronics when not in use. Use natural light when possible and report energy waste.</p>
+                    <a href="https://www.energy.gov/energysaver/energy-saver" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Learn More</a>
+                </div>
+            </div>
+            
+            <div class="help-card">
+                <div class="help-card-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <div class="help-card-content">
+                    <h3>Water Preservation</h3>
+                    <p>Report leaks immediately. Use water fountains instead of bottled water. Take shorter showers in dorms.</p>
+                    <a href="https://www.epa.gov/watersense/start-saving" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Learn More</a>
+                </div>
+            </div>
+            
+            <div class="help-card">
+                <div class="help-card-icon">
+                    <i class="fas fa-bicycle"></i>
+                </div>
+                <div class="help-card-content">
+                    <h3>Sustainable Transportation</h3>
+                    <p>Use campus bikes, walk, or carpool. Our bike-share program reduces carbon emissions significantly.</p>
+                    <a href="https://www.epa.gov/smartgrowth/smart-growth-and-transportation" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Learn More</a>
+                </div>
+            </div>
+            
+            <div class="help-card">
+                <div class="help-card-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="help-card-content">
+                    <h3>Green Initiatives</h3>
+                    <p>Join our student sustainability club. Participate in campus cleanups and tree planting events.</p>
+                    <a href="https://www.aashe.org/ "class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Learn More</a>
+                </div>
+            </div>
+            
+            <div class="help-card">
+                <div class="help-card-icon">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <div class="help-card-content">
+                    <h3>Spread Awareness</h3>
+                    <p>Educate peers about sustainability. Share our digital twin project and its benefits with others.</p>
+                    <a href="https://www.ibm.com/topics/what-is-a-digital-twin" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Complaint Form Section -->
+    <section id="complaint">
+        <div class="section-title">
+            <h2>Report Campus Issues</h2>
+            <p>Help us maintain a clean and sustainable campus environment</p>
+        </div>
         
         <div class="form-container">
-            <form id="garbageReportForm">
+            <form id="campusIssueForm">
                 <div class="form-group">
-                    <label for="reporterName">Your Name</label>
-                    <input type="text" id="reporterName" name="reporterName" required>
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="reporterEmail">Email Address</label>
-                    <input type="email" id="reporterEmail" name="reporterEmail" required>
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="reporterType">You are a</label>
-                    <select id="reporterType" name="reporterType" required>
-                        <option value="">Please select</option>
+                    <label for="role">Your Role</label>
+                    <select id="role" name="role" required>
+                        <option value="">Select your role</option>
                         <option value="student">Student</option>
-                        <option value="faculty">Faculty Member</option>
+                        <option value="faculty">Faculty</option>
                         <option value="staff">Staff</option>
                         <option value="visitor">Visitor</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
-                    <label for="wasteType">Type of Waste</label>
-                    <select id="wasteType" name="wasteType" required>
-                        <option value="">Please select</option>
-                        <option value="general">General Waste</option>
-                        <option value="plastic">Plastic/Recyclable</option>
-                        <option value="paper">Paper Waste</option>
-                        <option value="food">Food Waste</option>
-                        <option value="hazardous">Hazardous Waste</option>
-                        <option value="electronic">Electronic Waste</option>
+                    <label for="issueType">Issue Type</label>
+                    <select id="issueType" name="issueType" required>
+                        <option value="">Select issue type</option>
+                        <option value="waste">Waste Management</option>
+                        <option value="energy">Energy Waste</option>
+                        <option value="water">Water Leak/Issue</option>
+                        <option value="facilities">Facilities Maintenance</option>
+                        <option value="safety">Safety Concern</option>
                         <option value="other">Other</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
-                    <label>Severity Level</label>
-                    <div class="severity-container">
+                    <label for="severity">Severity Level</label>
+                    <div class="severity-options">
                         <div class="severity-option">
-                            <input type="radio" id="lowSeverity" name="severityLevel" value="low" required>
-                            <label for="lowSeverity">Low</label>
+                            <input type="radio" id="low" name="severity" value="low" required>
+                            <label for="low">Low</label>
                         </div>
                         <div class="severity-option">
-                            <input type="radio" id="mediumSeverity" name="severityLevel" value="medium">
-                            <label for="mediumSeverity">Medium</label>
+                            <input type="radio" id="medium" name="severity" value="medium">
+                            <label for="medium">Medium</label>
                         </div>
                         <div class="severity-option">
-                            <input type="radio" id="highSeverity" name="severityLevel" value="high">
-                            <label for="highSeverity">High</label>
+                            <input type="radio" id="high" name="severity" value="high">
+                            <label for="high">High</label>
                         </div>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="buildingLocation">Building/Area</label>
-                    <input type="text" id="buildingLocation" name="buildingLocation" placeholder="E.g., Main Building, Canteen, Hostel Block A" required>
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" placeholder="Building name or area" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="specificLocation">Specific Location</label>
-                    <input type="text" id="specificLocation" name="specificLocation" placeholder="E.g., 2nd Floor, Near Entry Gate, Behind Block C" required>
+                    <label for="specificLocation">Specific Location Details</label>
+                    <input type="text" id="specificLocation" name="specificLocation" placeholder="Floor, room number, or landmarks" required>
                 </div>
                 
                 <div class="form-group">
-                    <label>GPS Location</label>
-                    <div class="location-container">
-                        <input type="text" id="latitude" name="latitude" placeholder="Latitude" readonly>
-                        <input type="text" id="longitude" name="longitude" placeholder="Longitude" readonly>
-                    </div>
-                    <button type="button" id="getLocationBtn" class="get-location">
-                        <i>📍</i> Get My Current Location
+                    <label for="description">Issue Description</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="photo">Upload Photo (Optional)</label>
+                    <input type="file" id="photo" name="photo" accept="image/*" class="file-upload">
+                    <label for="photo" class="file-upload-label">
+                        <i class="fas fa-camera"></i> Choose File
+                    </label>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="reset" class="btn btn-outline" style="background: transparent; color: var(--primary-color); border-color: var(--primary-color);">
+                        Clear Form
                     </button>
-                    <div class="location-display" id="locationStatus"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="issueDescription">Description of the Issue</label>
-                    <textarea id="issueDescription" name="issueDescription" placeholder="Please describe the garbage issue in detail..." required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="imageUpload">Upload Image (Optional)</label>
-                    <div class="file-input-container">
-                        <input type="file" id="imageUpload" name="imageUpload" accept="image/*">
-                        <label for="imageUpload" class="file-input-label">Choose File</label>
-                    </div>
-                    <img id="imagePreview" src="#" alt="Preview">
-                </div>
-                
-                <div class="buttons">
-                    <button type="reset" style="background: linear-gradient(to right, #6c757d, #495057);">Clear Form</button>
-                    <button type="submit" id="submitBtn">
-                        <div class="spinner" id="submitSpinner"></div>
+                    <button type="submit" class="btn btn-primary">
                         Submit Report
                     </button>
                 </div>
             </form>
-            
-            <div class="success-message" id="successMessage">
-                <h3 class="success-animation">Report Submitted Successfully! ✅</h3>
-                <p>Thank you for contributing to campus sustainability. Your report has been recorded and will be addressed promptly.</p>
+        </div>
+    </section>
+    <!-- Complaint Form Section with Embedded Google Form -->
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <a href="#" class="footer-logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>Digital Twin Campus</span>
+                </a>
+                <p>Transforming our university into a model of sustainability through digital innovation and community engagement.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
             </div>
             
-            <div class="error-message" id="errorMessage">
-                <h3>Submission Error</h3>
-                <p>There was a problem submitting your report. Please check your connection and try again.</p>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Project</a></li>
+                    <li><a href="#model">Campus Model</a></li>
+                    <li><a href="#help">How to Help</a></li>
+                    <li><a href="#complaint">Report Issues</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Sustainability Guide</a></li>
+                    <li><a href="#">Research Papers</a></li>
+                    <li><a href="#">Data Dashboard</a></li>
+                    <li><a href="#">Student Organizations</a></li>
+                    <li><a href="#">Campus Policies</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> sustainability@university.edu</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Sustainability Office, Main Campus</li>
+                </ul>
             </div>
         </div>
-    </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 Digital Twin Campus Project. All rights reserved.</p>
+        </div>
+    </footer>
 
-    <script>
+    
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('garbageReportForm');
-            const getLocationBtn = document.getElementById('getLocationBtn');
-            const latitudeInput = document.getElementById('latitude');
-            const longitudeInput = document.getElementById('longitude');
-            const locationStatus = document.getElementById('locationStatus');
-            const successMessage = document.getElementById('successMessage');
-            const errorMessage = document.getElementById('errorMessage');
-            const submitBtn = document.getElementById('submitBtn');
-            const submitSpinner = document.getElementById('submitSpinner');
-            const imageUpload = document.getElementById('imageUpload');
-            const imagePreview = document.getElementById('imagePreview');
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
             
-            // Get current location
-            getLocationBtn.addEventListener('click', function() {
-                locationStatus.textContent = "Getting your location...";
-                
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        function(position) {
-                            const lat = position.coords.latitude;
-                            const lng = position.coords.longitude;
-                            
-                            latitudeInput.value = lat.toFixed(6);
-                            longitudeInput.value = lng.toFixed(6);
-                            locationStatus.textContent = "Location acquired successfully!";
-                            locationStatus.style.color = "#155724";
-                            
-                            // Add animation to indicate success
-                            getLocationBtn.classList.add('success-animation');
-                            setTimeout(() => {
-                                getLocationBtn.classList.remove('success-animation');
-                            }, 2000);
-                        },
-                        function(error) {
-                            console.error(error);
-                            locationStatus.textContent = "Error getting location: " + getLocationErrorMessage(error);
-                            locationStatus.style.color = "#721c24";
-                        },
-                        {
-                            enableHighAccuracy: true,
-                            timeout: 10000,
-                            maximumAge: 0
-                        }
-                    );
-                } else {
-                    locationStatus.textContent = "Geolocation is not supported by your browser";
-                    locationStatus.style.color = "#721c24";
-                }
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                mobileMenuBtn.innerHTML = navLinks.classList.contains('active') ? 
+                    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
             });
             
-            // Image preview
-            imageUpload.addEventListener('change', function() {
-                const file = this.files[0];
-                const fileLabel = document.querySelector('.file-input-label');
-                
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        imagePreview.src = e.target.result;
-                        imagePreview.style.display = 'block';
-                        // Update label to show file name
-                        fileLabel.textContent = file.name;
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                     }
-                    reader.readAsDataURL(file);
-                } else {
-                    imagePreview.style.display = 'none';
-                    fileLabel.textContent = 'Choose File';
-                }
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                });
             });
             
-            // Form submission
+            // Form submission with email sending
+            const form = document.getElementById('campusIssueForm');
+            
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Show loading spinner
-                submitSpinner.style.display = 'inline-block';
+                // Get form data
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+                
+                // Show loading state
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
                 submitBtn.disabled = true;
                 
-                // Simulate form submission with a timeout
+                // In a real implementation, you would send this data to your server
+                // which would then send the email. This is a simulation.
                 setTimeout(function() {
-                    // Hide spinner
-                    submitSpinner.style.display = 'none';
-                    submitBtn.disabled = false;
+                    // Simulate successful submission
+                    submitBtn.innerHTML = '<i class="fas fa-check"></i> Submitted!';
                     
-                    // Show success message with smooth transition
-                    form.style.opacity = '0';
-                    form.style.height = '0';
-                    form.style.overflow = 'hidden';
-                    form.style.margin = '0';
-                    form.style.padding = '0';
-                    form.style.transition = 'all 0.5s ease-out';
+                    // Show success message
+                    alert('Thank you for your report! We have received your submission and will address it promptly. A confirmation has been sent to your email.');
                     
-                    setTimeout(() => {
-                        form.style.display = 'none';
-                        successMessage.style.display = 'block';
-                    }, 500);
+                    // Reset form after delay
+                    setTimeout(function() {
+                        form.reset();
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.disabled = false;
+                    }, 2000);
                     
-                    // Reset form in background
-                    form.reset();
-                    imagePreview.style.display = 'none';
-                    document.querySelector('.file-input-label').textContent = 'Choose File';
+                    // In a real implementation, you would:
+                    // 1. Send the form data to your server (e.g., using fetch API)
+                    // 2. Your server would process the data and send an email
+                    // 3. Handle any errors that might occur
+                    
+                    // Example fetch implementation (commented out as it requires backend):
+                    /*
+                    fetch('/api/submit-report', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert('Report submitted successfully!');
+                        form.reset();
+                    })
+                    .catch((error) => {
+                        alert('Error submitting report. Please try again.');
+                    })
+                    .finally(() => {
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.disabled = false;
+                    });
+                    */
+                    
                 }, 1500);
             });
             
-            // Helper function for location error messages
-            function getLocationErrorMessage(error) {
-                switch(error.code) {
-                    case error.PERMISSION_DENIED:
-                        return "User denied the request for geolocation.";
-                    case error.POSITION_UNAVAILABLE:
-                        return "Location information is unavailable.";
-                    case error.TIMEOUT:
-                        return "The request to get user location timed out.";
-                    case error.UNKNOWN_ERROR:
-                        return "An unknown error occurred.";
-                    default:
-                        return "An unknown error occurred.";
-                }
+            // Image preview for file upload
+            const photoInput = document.getElementById('photo');
+            if (photoInput) {
+                photoInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            // In a real implementation, you might display a preview
+                            // For now, we'll just show the file name
+                            const fileLabel = document.querySelector('.file-upload-label');
+                            fileLabel.innerHTML = <i class="fas fa-check"></i> ${file.name};
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
             }
             
-            // Add subtle hover effects to form elements
-            const formElements = document.querySelectorAll('input, select, textarea');
-            formElements.forEach(element => {
-                element.addEventListener('mouseover', function() {
-                    if (!this.disabled) {
-                        this.style.boxShadow = '0 0 0 3px rgba(10, 124, 69, 0.1)';
-                    }
-                });
+            // Animate elements when they come into view
+            const animateOnScroll = function() {
+                const elements = document.querySelectorAll('.fade-in:not(.animated)');
                 
-                element.addEventListener('mouseout', function() {
-                    if (!this.disabled && document.activeElement !== this) {
-                        this.style.boxShadow = 'none';
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementPosition < windowHeight - 100) {
+                        element.classList.add('animated');
                     }
                 });
-            });
+            };
+            
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Run once on page load
         });
-    </script>
+     
+    document.getElementById("campusIssueForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      // Form submission to backend
+const form = document.getElementById('campusIssueForm');
+
+form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+    submitBtn.disabled = true;
+
+    try {
+        const response = await fetch("http://localhost:3000/submit-complaint", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        alert(result.message || "Complaint submitted successfully!");
+        form.reset();
+    } catch (error) {
+        console.error(error);
+        alert("There was an error submitting the complaint. Please try again.");
+    } 
+});
+    </script> -->
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    if (mobileMenuBtn && navLinks) {
+        mobileMenuBtn.addEventListener('click', function () {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active')
+                ? '<i class="fas fa-times"></i>'
+                : '<i class="fas fa-bars"></i>';
+        });
+    }
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Image preview for file upload
+    const photoInput = document.getElementById('photo');
+    if (photoInput) {
+        photoInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const fileLabel = document.querySelector('.file-upload-label');
+                fileLabel.innerHTML = '<i class="fas fa-check"></i> ${file.name}';
+            }
+        });
+    }
+
+    // Animate elements when they come into view
+    const animateOnScroll = function () {
+        const elements = document.querySelectorAll('.fade-in:not(.animated)');
+        elements.forEach(element => {
+            const elementPosition = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            if (elementPosition < windowHeight - 100) {
+                element.classList.add('animated');
+            }
+        });
+    };
+
+    window.addEventListener('scroll', animateOnScroll);
+    animateOnScroll(); // Run once on page load
+
+    // Form submission with backend integration
+    const form = document.getElementById("campusIssueForm");
+    if (form) {
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch("http://localhost:3000/submit-complaint", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                alert(result.message || "Complaint submitted successfully!");
+                form.reset();
+            } catch (error) {
+                console.error(error);
+                alert("There was an error submitting the complaint. Please try again.");
+            } finally {
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+});
+
+</script>
+
+     
+
 </body>
 </html>
